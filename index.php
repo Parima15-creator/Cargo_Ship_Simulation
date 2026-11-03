@@ -9,13 +9,13 @@ if (!isset($_SESSION['csrf'])) $_SESSION['csrf']=bin2hex(random_bytes(32));
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta name="csrf-token" content="<?=htmlspecialchars($_SESSION['csrf'],ENT_QUOTES,'UTF-8')?>">
-        <title>Atlas Load Optimizer</title>
+        <title>Cargo Load Optimizer</title>
         <link rel="stylesheet" href="assets/css/style.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
         <div class="app" id="app">
-        <header class="topbar"><div class="brand"><div class="brand-mark">↗</div><span>Atlas <b>Load Optimizer</b></span></div><div class="header-actions"><span class="status-dot"></span><span class="saved-label">Saved to database</span><button class="theme-toggle" id="themeToggle">☼ <span>Light mode</span></button></div></header>
+        <header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 17 17 6M8 6h9v9"/></svg></div><span>Cargo <b>Load Optimizer</b></span></div><div class="header-actions"><span class="status-dot"></span><button class="theme-toggle" id="themeToggle">☼ <span>Light mode</span></button></div></header>
         <main class="layout">
             <aside class="rail">
                 <div class="rail-label">WORKSPACE</div>
@@ -23,16 +23,10 @@ if (!isset($_SESSION['csrf'])) $_SESSION['csrf']=bin2hex(random_bytes(32));
                     <span>▦</span> Load optimizer</button>
                     <button class="rail-link" data-tab="theory">
                         <span>⌘</span> Algorithm theory</button>
-                        <div class="rail-card">
-                            <div class="tiny-label">UNIT 01</div>
-                            <strong>Greedy strategy</strong>
-                            <p>Fractional knapsack · O(n log n)</p>
-                            <div class="rail-progress">
-                                <i></i></div></div>
-                                <div class="rail-foot">CARGO SYSTEMS<br>
-                                <span>ALGORITHM LAB · PHP EDITION</span>
-                            </div>
-                </aside>
+                        <div class="rail-foot">CARGO SYSTEMS<br>
+                            <span>DAA LAB · PHP EDITION</span>
+                        </div>
+            </aside>
 <section class="content">
     <div class="page-heading"><div>
         <div class="eyebrow" id="eyebrow">DELIVERY OPERATIONS / STEP 01</div>
@@ -87,8 +81,8 @@ if (!isset($_SESSION['csrf'])) $_SESSION['csrf']=bin2hex(random_bytes(32));
 </article>
 <article class="panel theory-card">
     <span class="section-index">04 / WORKED EXAMPLE</span>
-    <h3>Capacity 50 kg</h3><p>Items: (10 kg, $60), (20 kg, $100), (30 kg, $120). Ratios are 6, 5 and 4. Load the first two completely and 20 kg (⅔) of the third.</p>
-    <div class="equation mono">$60 + $100 + (⅔ × $120) = $240</div>
+    <h3>Capacity 50 kg</h3><p>Items: (10 kg, ?60), (20 kg, ?100), (30 kg, ?120). Ratios are 6, 5 and 4. Load the first two completely and 20 kg (⅔) of the third.</p>
+    <div class="equation mono">?60 + ?100 + (⅔ × ?120) = ?240</div>
 </article>
 </div>
 <section class="panel complexity-panel">
@@ -110,17 +104,11 @@ if (!isset($_SESSION['csrf'])) $_SESSION['csrf']=bin2hex(random_bytes(32));
 <div>
     <span>BEST · AVG · WORST</span>
     <b class="mono">O(n log n + m)</b>
-    <small>comparison sorting plus linear fleet pass</small></div></div></section><section class="panel contrast-panel"><div><span class="section-index">06 / FRACTIONAL VS 0/1</span><h2>Why divisibility matters</h2><p>For 0/1 knapsack, each item must be taken whole. Greedy ratio ordering can miss the best combination; dynamic programming takes pseudo-polynomial O(nW) time. Fractional knapsack is solved optimally by greedy sorting.</p></div><div class="contrast-example"><span class="section-index">COUNTEREXAMPLE · CAPACITY 10</span><div class="contrast-items"><span>A <b class="mono">6 kg · $12</b></span><span>B <b class="mono">5 kg · $10</b></span><span>C <b class="mono">5 kg · $10</b></span></div><small>Ratio greedy picks A ($12); 0/1 optimum picks B and C ($20). Fractional items can be split, so ratio ordering remains optimal.</small></div></section><section class="panel benchmark-panel"><div class="panel-title"><div><span class="section-index">07 / ALGORITHM NOTES</span><h2>Advantages and applications</h2><p>Useful wherever divisible resources should maximize total utility.</p></div></div><p class="muted">Advantages: optimal greedy solution, fast sorting-based implementation, easy-to-explain decisions. Limitations: assumes divisible goods and known values; indivisible cargo requires a different model. Applications include cargo loading, budget allocation, bandwidth distribution, and cutting stock approximations.</p></section></div>
-<section id="theoryBenchmark" class="panel benchmark-panel" hidden>
-    <div class="panel-title"><div>
-        <span class="section-index">08 / EMPIRICAL RUNTIME</span>
-        <h2>Measure the growth curve</h2>
-        <p>Run the PHP optimizer at increasing input sizes.</p>
-    </div>
-    <button id="runBench" class="button primary">▶ Run benchmark</button></div><div id="benchmarkOutput" class="bench-empty"><span>⌁</span><p>Four sizes · 100 to 100,000 items · measured by PHP</p></div><small class="muted">Timings vary by server and include sorting and allocation.</small></section>
+    <small>comparison sorting plus linear fleet pass</small></div></div></section><section class="panel contrast-panel"><div><span class="section-index">06 / FRACTIONAL VS 0/1</span><h2>Why divisibility matters</h2><p>For 0/1 knapsack, each item must be taken whole. Greedy ratio ordering can miss the best combination; dynamic programming takes pseudo-polynomial O(nW) time. Fractional knapsack is solved optimally by greedy sorting.</p></div><div class="contrast-example"><span class="section-index">COUNTEREXAMPLE · CAPACITY 10</span><div class="contrast-items"><span>A <b class="mono">6 kg · ?12</b></span><span>B <b class="mono">5 kg · ?10</b></span><span>C <b class="mono">5 kg · ?10</b></span></div><small>Ratio greedy picks A (?12); 0/1 optimum picks B and C (?20). Fractional items can be split, so ratio ordering remains optimal.</small></div></section><section class="panel benchmark-panel"><div class="panel-title"><div><span class="section-index">07 / ALGORITHM NOTES</span><h2>Advantages and applications</h2><p>Useful wherever divisible resources should maximize total utility.</p></div></div><p class="muted">Advantages: optimal greedy solution, fast sorting-based implementation, easy-to-explain decisions. Limitations: assumes divisible goods and known values; indivisible cargo requires a different model. Applications include cargo loading, budget allocation, bandwidth distribution, and cutting stock approximations.</p></section></div>
+
 <footer class="footer">
-    <span>ATLAS CARGO SYSTEMS</span>
-    <span>Built for efficient deliveries <i>·</i> Unit 01: Greedy algorithms</span>
+    <span>CARGO SYSTEMS</span>
+    <span>Built for efficient deliveries</span>
 </footer></section></main></div><script src="assets/js/main.js">
 
 </script>

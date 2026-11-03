@@ -46,10 +46,6 @@ try {
     }
     if ($action==='reset') {$pdo->beginTransaction();$pdo->exec('DELETE FROM allocations');$pdo->exec('DELETE FROM optimizations');$pdo->exec('DELETE FROM items');$pdo->exec('DELETE FROM trucks');$pdo->commit();unset($_SESSION['last_result']);reply(['ok'=>true]);}
     if ($action==='export') { $which=$data['type']??''; $result=$_SESSION['last_result']??null;if(!$result)throw new InvalidArgumentException('Run an optimization before exporting.');reply(['data'=>$result,'type'=>$which]); }
-    if ($action==='load-sample') {
-        $samples=[['Medicines',12,300],['Electronics',18,360],['Fresh groceries',24,240],['Power tools',15,210],['Winter clothing',20,180],['Coffee beans',8,136],['Books',14,112],['Furniture',42,294],['First aid kits',5,150],['Water cases',30,90],['Batteries',9,171],['Kitchen supplies',16,128]];
-        $pdo->beginTransaction();$pdo->exec('DELETE FROM items');$s=$pdo->prepare('INSERT INTO items(item_name,weight,value) VALUES(?,?,?)');foreach($samples as $x)$s->execute($x);$pdo->commit();reply(['ok'=>true]);
-    }
     if ($action==='random-items') { $n=max(1,min(10000,(int)($data['count']??1)));$pdo->beginTransaction();$s=$pdo->prepare('INSERT INTO items(item_name,weight,value) VALUES(?,?,?)');$base=(int)$pdo->query('SELECT COUNT(*) FROM items')->fetchColumn();for($i=0;$i<$n;$i++)$s->execute(['Generated Cargo '.bin2hex(random_bytes(8)).' '.($base+$i+1),random_int(100,5000)/100,random_int(100,999)]);$pdo->commit();reply(['ok'=>true,'count'=>$n]); }
     if ($action==='benchmark') {
         $rows=[];
