@@ -439,17 +439,6 @@ document.querySelectorAll("[data-tab]").forEach(
           : "Make every kilogram count across your delivery fleet.";
     }),
 );
-$("#themeToggle").onclick = () => {
-  const app = $("#app"),
-    light = app.classList.toggle("light");
-  $("#themeToggle").innerHTML =
-    `${light ? "☾" : "☼"} <span>${light ? "Dark" : "Light"} mode</span>`;
-  localStorage.setItem("cargo-theme", light ? "light" : "dark");
-};
-if (localStorage.getItem("cargo-theme") === "light") {
-  $("#app").classList.add("light");
-  $("#themeToggle").innerHTML = "☾ <span>Dark mode</span>";
-}
 request("state")
   .then((d) => {
     state.trucks = d.trucks;

@@ -28,7 +28,7 @@ if (!isset($_SESSION['csrf'])) {
     </head>
     <body>
         <div class="app" id="app">
-        <header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 17 17 6M8 6h9v9"/></svg></div><span>Cargo <b>Load Optimizer</b></span></div><div class="header-actions"><span class="status-dot"></span><button class="theme-toggle" id="themeToggle">☼ <span>Light mode</span></button></div></header>
+        <header class="topbar"><div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 17 17 6M8 6h9v9"/></svg></div><span>Cargo <b>Load Optimizer</b></span></div><div class="header-actions"><span class="status-dot"></span></div></header>
         <main class="layout">
             <aside class="rail">
                 <div class="rail-label">WORKSPACE</div>
@@ -105,19 +105,94 @@ if (!isset($_SESSION['csrf'])) {
     </div>
 </div>
 <div class="complexity-stats"><div>
-    <span>TIME</span>
+    <span>TIME · BEST</span>
     <b class="mono">O(n log n + m)</b>
-    <small>sorting O(n log n), allocation O(n + m)</small>
+    <small>Sorting and the linear fleet pass.</small>
 </div>
 <div>
-    <span>SPACE</span>
+    <span>TIME · AVERAGE</span>
+    <b class="mono">O(n log n + m)</b>
+    <small>Comparison sorting dominates the work.</small>
+</div>
+<div>
+    <span>TIME · WORST</span>
+    <b class="mono">O(n log n + m)</b>
+    <small>Sorting plus allocation across all trucks.</small>
+</div>
+<div>
+    <span>SPACE · BEST</span>
     <b class="mono">O(n + m)</b>
-    <small>sorted entries, allocations, trace, truck summaries</small>
+    <small>Sorted entries, allocations, and truck summaries.</small>
 </div>
 <div>
-    <span>BEST · AVG · WORST</span>
-    <b class="mono">O(n log n + m)</b>
-    <small>comparison sorting plus linear fleet pass</small></div></div></section><section class="panel contrast-panel"><div><span class="section-index">06 / FRACTIONAL VS 0/1</span><h2>Why divisibility matters</h2><p>For 0/1 knapsack, each item must be taken whole. Greedy ratio ordering can miss the best combination; dynamic programming takes pseudo-polynomial O(nW) time. Fractional knapsack is solved optimally by greedy sorting.</p></div><div class="contrast-example"><span class="section-index">COUNTEREXAMPLE · CAPACITY 10</span><div class="contrast-items"><span>A <b class="mono">6 kg · ?12</b></span><span>B <b class="mono">5 kg · ?10</b></span><span>C <b class="mono">5 kg · ?10</b></span></div><small>Ratio greedy picks A (?12); 0/1 optimum picks B and C (?20). Fractional items can be split, so ratio ordering remains optimal.</small></div></section><section class="panel benchmark-panel"><div class="panel-title"><div><span class="section-index">07 / ALGORITHM NOTES</span><h2>Advantages and applications</h2><p>Useful wherever divisible resources should maximize total utility.</p></div></div><p class="muted">Advantages: optimal greedy solution, fast sorting-based implementation, easy-to-explain decisions. Limitations: assumes divisible goods and known values; indivisible cargo requires a different model. Applications include cargo loading, budget allocation, bandwidth distribution, and cutting stock approximations.</p></section></div>
+    <span>SPACE · AVERAGE</span>
+    <b class="mono">O(n + m)</b>
+    <small>The same report structures are retained.</small>
+</div>
+<div>
+    <span>SPACE · WORST</span>
+    <b class="mono">O(n + m)</b>
+    <small>All items and trucks may appear in the report.</small>
+</div>
+</div>
+</section>
+<section class="panel contrast-panel"><div>
+    <span class="section-index">06 / FRACTIONAL VS 0/1</span>
+    <h2>Why divisibility matters</h2>
+    <p>For 0/1 knapsack, each item must be taken whole. Greedy ratio ordering can miss the best combination; dynamic programming takes pseudo-polynomial O(nW) time. Fractional knapsack is solved optimally by greedy sorting.</p>
+</div>
+<div class="contrast-example">
+    <span class="section-index">COUNTEREXAMPLE · CAPACITY 10</span>
+    <div class="contrast-items"><span>A <b class="mono">6 kg · ?12</b></span><span>B <b class="mono">5 kg · ?10</b></span><span>C <b class="mono">5 kg · ?10</b></span></div><small>Ratio greedy picks A (?12); 0/1 optimum picks B and C (?20). Fractional items can be split, so ratio ordering remains optimal.</small></div></section>
+<section class="panel info-panel">
+    <div class="panel-title"><div>
+        <span class="section-index">07 / ADVANTAGES</span>
+        <h2>Advantages of Fractional Knapsack</h2>
+        <p>Why the greedy strategy is useful for divisible resources.</p>
+    </div></div>
+    <ol class="explanation-list">
+        <li><b>Optimal solution:</b> It maximizes total value by selecting the highest value-to-weight ratios first.</li>
+        <li><b>Simple greedy approach:</b> Each choice is easy to explain because the best available ratio is selected first.</li>
+        <li><b>Fractional selection:</b> An item can be divided when only part of its weight fits.</li>
+        <li><b>Efficient execution:</b> Sorting gives an overall time complexity of O(n log n + m).</li>
+        <li><b>Easy implementation:</b> The solution uses sorting followed by one allocation pass.</li>
+        <li><b>Better resource utilization:</b> Remaining capacity can be filled with portions of other items.</li>
+        <li><b>Flexible allocation:</b> It supports different item weights, values, and fleet capacities.</li>
+    </ol>
+</section>
+<section class="panel info-panel">
+    <div class="panel-title"><div>
+        <span class="section-index">08 / DISADVANTAGES</span>
+        <h2>Disadvantages of Fractional Knapsack</h2>
+        <p>Conditions and limitations to consider before applying it.</p>
+    </div></div>
+    <ol class="explanation-list">
+        <li><b>Items must be divisible:</b> It is not suitable for indivisible goods such as laptops, furniture, or machines.</li>
+        <li><b>Limited problem scope:</b> It cannot directly solve problems where items must be accepted whole or rejected whole.</li>
+        <li><b>Requires accurate data:</b> Every item needs a reliable weight and value for its ratio.</li>
+        <li><b>Greedy limitation:</b> Ratio ordering is not always optimal for the 0/1 knapsack problem.</li>
+        <li><b>Basic constraints only:</b> The model does not include dimensions, fragility, compatibility, or delivery priority.</li>
+        <li><b>Real-world handling:</b> Packaging or transportation rules may prevent an item from being split.</li>
+        <li><b>No route optimization:</b> It maximizes cargo value but does not calculate delivery routes.</li>
+    </ol>
+</section>
+<section class="panel info-panel">
+    <div class="panel-title"><div>
+        <span class="section-index">09 / APPLICATIONS</span>
+        <h2>Applications of Fractional Knapsack</h2>
+        <p>Examples of divisible-resource allocation in practice.</p>
+    </div></div>
+    <ol class="explanation-list">
+        <li><b>Cargo and transportation:</b> Load trucks, ships, and aircraft to maximize cargo value.</li>
+        <li><b>Resource allocation:</b> Distribute raw materials, storage, or computing capacity by importance.</li>
+        <li><b>Budget and investment planning:</b> Allocate funds among projects or investments when partial funding is allowed.</li>
+        <li><b>Warehouse management:</b> Prioritize goods when storage weight or space is limited.</li>
+        <li><b>Food and supply distribution:</b> Divide grains, fuel, water, and other essential supplies.</li>
+        <li><b>Cloud computing:</b> Distribute processing time, bandwidth, or capacity among prioritized tasks.</li>
+        <li><b>Manufacturing and agriculture:</b> Allocate raw materials, fertilizer, seeds, or storage capacity.</li>
+        <li><b>Time and emergency management:</b> Assign limited time or divisible emergency supplies to maximize benefit.</li>
+    </ol>
+</section></div>
 
 <footer class="footer">
     <span>CARGO SYSTEMS</span>

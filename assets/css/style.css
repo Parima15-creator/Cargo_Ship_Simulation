@@ -1,9 +1,9 @@
 /*
  * Complete visual system for the Cargo Load Optimizer.
  *
- * This file defines theme tokens, navigation, forms, panels, tables, result
- * cards, charts, theory content, responsive breakpoints, and focus states.
- * The .light class swaps semantic colors without changing the markup.
+ * This file defines the dark theme tokens, navigation, forms, panels, tables,
+ * result cards, charts, theory content, responsive breakpoints, and focus
+ * states used throughout the application.
  */
 /* Atlas dark and light tokens plus responsive dashboard component styling. */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Code+Pro:wght@400;500;600&family=Source+Serif+4:wght@500;600;700&display=swap");
@@ -50,16 +50,6 @@ input {
   transition:
     background 0.18s,
     color 0.18s;
-}
-.app.light {
-  --bg: #f9fbfa;
-  --surface: #fff;
-  --surface-2: #f2f6f4;
-  --border: #e2eae7;
-  --text: #001e2b;
-  --text-muted: #607277;
-  color-scheme: light;
-  --shadow: 0 12px 32px #001e2b0a;
 }
 .mono,
 .field input[type="number"],
@@ -125,19 +115,6 @@ input {
   border-radius: 50%;
   background: #00ed64;
   box-shadow: 0 0 0 3px #00ed6424;
-}
-.theme-toggle {
-  margin-left: 16px;
-  background: #ffffff0c;
-  border: 1px solid #ffffff25;
-  color: #e8edeb;
-  padding: 8px 11px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.18s;
-}
-.theme-toggle:hover {
-  background: #ffffff20;
 }
 .layout {
   display: grid;
@@ -506,7 +483,6 @@ input {
   white-space: nowrap;
 }
 .button:focus-visible,
-.theme-toggle:focus-visible,
 .text-button:focus-visible,
 .icon-button:focus-visible,
 .rail-link:focus-visible {
@@ -1200,6 +1176,25 @@ td:first-child {
   font-size: 8px;
   color: var(--text-muted);
 }
+.info-panel {
+  margin-top: 13px;
+}
+.explanation-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 24px;
+  color: var(--text-muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+.explanation-list li::marker {
+  color: var(--brand-green);
+  font-family: "Source Code Pro", monospace;
+}
+.explanation-list b {
+  color: var(--text);
+}
 .contrast-panel {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -1471,12 +1466,6 @@ td:first-child {
 @media (max-width: 430px) {
   .brand {
     font-size: 13px;
-  }
-  .theme-toggle span {
-    display: none;
-  }
-  .theme-toggle {
-    margin-left: 5px;
   }
   .header-actions {
     gap: 6px;

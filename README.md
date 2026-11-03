@@ -27,7 +27,7 @@ The server needs PHP PDO MySQL enabled (`pdo_mysql` in `php.ini`). Chart.js is l
 
 `includes/knapsack.php` is independent of rendering and the database. It sorts all items by descending value/weight ratio (then descending value, then original order) and uses one pass to distribute them across trucks in configured order. If an item is split by one truck's remaining space, its remaining fraction continues into the following truck. Because items are divisible, this is equivalent to one knapsack with combined fleet capacity and is globally optimal. A zero-weight positive-value item is included at no capacity cost; zero-weight zero-value items are ignored.
 
-For `n` items and `m` trucks, sorting takes `O(n log n)` and the allocation pass takes `O(n + m)`, for `O(n log n + m)` total time. The returned ordering, trace, allocations, and truck summaries use `O(n + m)` auxiliary space.
+For `n` items and `m` trucks, the best, average, and worst-case time complexity is `O(n log n + m)`: sorting takes `O(n log n)` and the allocation pass takes `O(n + m)`. The best, average, and worst-case space complexity is `O(n + m)` because the sorted entries, allocations, trace, and truck summaries are retained. The algorithm is optimal for divisible items, but it does not directly handle indivisible goods, additional cargo constraints, or delivery-route optimization. Applications include cargo loading, resource and budget allocation, warehouse management, cloud computing, manufacturing, agriculture, and emergency-supply distribution.
 
 ## Algorithm verification
 
