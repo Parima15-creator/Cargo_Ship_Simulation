@@ -1,14 +1,27 @@
 <?php
+/**
+ * Main browser entry point for the Cargo Load Optimizer.
+ *
+ * This file starts the visitor session, creates the session-scoped CSRF token
+ * used by state-changing API requests, and renders the complete application
+ * shell. The shell contains the navigation, optimizer step containers,
+ * algorithm-theory content, accessibility attributes, and static asset links.
+ * The JavaScript application fills the step containers with the current
+ * trucks, cargo items, and optimization results returned by api.php.
+ */
 declare(strict_types=1);
 session_start();
-if (!isset($_SESSION['csrf'])) $_SESSION['csrf']=bin2hex(random_bytes(32));
+// Create the token once per session so JavaScript can authenticate write requests.
+if (!isset($_SESSION['csrf'])) {
+    $_SESSION['csrf'] = bin2hex(random_bytes(32));
+}
 ?>
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta name="csrf-token" content="<?=htmlspecialchars($_SESSION['csrf'],ENT_QUOTES,'UTF-8')?>">
+        <meta name="csrf-token" content="<?=htmlspecialchars($_SESSION['csrf'], ENT_QUOTES, 'UTF-8')?>">
         <title>Cargo Load Optimizer</title>
         <link rel="stylesheet" href="assets/css/style.css">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
