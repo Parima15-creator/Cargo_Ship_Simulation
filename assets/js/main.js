@@ -151,7 +151,62 @@ function resultHTML() {
     )
     .join(
       "",
-    )}</div><section class="panel result-panel"><div class="panel-title"><div><span class="section-index">03 / ALLOCATION</span><h2>Fleet allocation</h2><p>Value-dense cargo is distributed in ratio order.</p></div></div><div class="truck-result-grid">${result.perTruck.map((tr, i) => `<div class="truck-result"><div class="truck-result-head"><div class="truck-color" style="background:${colors[i % colors.length]}">${String(i + 1).padStart(2, "0")}</div><div><b>${esc(tr.truckName)}</b><span class="mono">${fmt(tr.weightLoaded)} / ${fmt(tr.capacity)} kg</span></div><strong class="mono">${money(tr.valueLoaded)}</strong></div><div class="progress-track">${tr.allocations.map((a) => `<i style="width:${tr.capacity ? (a.weightTaken / tr.capacity) * 100 : 0}%;background:${colors[items.findIndex((x) => +x.id === a.itemId) % colors.length]}" title="${esc(a.itemName)}"></i>`).join("")}</div><div class="usage-line"><span>CAPACITY USED</span><b class="mono">${fmt(tr.capacity ? (tr.weightLoaded / tr.capacity) * 100 : 0, 1)}%</b></div><div class="alloc-list">${tr.allocations.map((a) => `<div class="allocation-row"><span class="alloc-color" style="background:${colors[items.findIndex((x) => +x.id === a.itemId) % colors.length]}"></span><span class="alloc-name">${esc(a.itemName)}</span><span class="mono">${fmt(a.fraction * 100, 1)}%</span><span class="mono">${fmt(a.weightTaken)} kg</span><b class="mono">${money(a.valueGained)}</b></div>`).join("")}</div></div>`).join("")}</div></section><div class="chart-grid"><section class="panel chart-panel"><div class="chart-heading"><b>VALUE BY TRUCK</b><span>Contribution to total loaded value</span></div><canvas id="truckChart" height="180"></canvas></section><section class="panel chart-panel"><div class="chart-heading"><b>VALUE DENSITY ORDER</b><span>Ratio ranking · status of each cargo item</span></div><canvas id="itemChart" height="180"></canvas><div class="legend"><span><i class="green-dot"></i>Full</span><span><i class="yellow-dot"></i>Partial</span><span><i class="gray-dot"></i>Left behind</span></div></section></div>${result.leftoverItems.length ? `<section class="panel leftovers"><div class="panel-title"><div><span class="section-index">REMAINING CARGO</span><h2>Left behind</h2></div><span class="badge warning-badge">${result.leftoverItems.length} ITEMS</span></div><div class="leftover-list">${result.leftoverItems.map((x) => `<div><b>${esc(x.itemName)}</b><span class="mono">${fmt(x.remainingWeight)} kg remaining</span><small>${esc(x.reason)}</small></div>`).join("")}</div></section>` : ""}<section class="panel trace-panel"><details open><summary><span><span class="section-index">GREEDY TRACE</span><b>Step-by-step explanation</b><small>${result.trace.length} decisions · ratio order</small></span><i>⌄</i></summary><div class="trace-intro">Items are ranked by value per kilogram; the optimizer pours each item into available fleet capacity in that order.</div><ol>${result.trace.map((line, i) => `<li><span class="trace-number">${String(i + 1).padStart(2, "0")}</span>${esc(line)}</li>`).join("")}</ol></details></section><div class="bottom-nav results-bottom"><button class="button danger-button" id="reset">Reset all</button></div>`;
+    )}
+    </div>
+    <section class="panel result-panel">
+      <div class="panel-title">
+      <div><span class="section-index">03 / ALLOCATION</span>
+      <h2>Fleet allocation</h2>
+      <p>Value-dense cargo is distributed in ratio order.</p>
+      </div>
+      </div>
+      <div class="truck-result-grid">${result.perTruck.map((tr, i) => `<div class="truck-result"><div class="truck-result-head">
+        <div class="truck-color" style="background:${colors[i % colors.length]}">${String(i + 1).padStart(2, "0")}</div>
+        <div>
+        <b>${esc(tr.truckName)}</b>
+        <span class="mono">${fmt(tr.weightLoaded)} / ${fmt(tr.capacity)} kg</span>
+        </div>
+        <strong class="mono">${money(tr.valueLoaded)}</strong>
+        </div>
+        <div class="progress-track">${tr.allocations.map((a) => `<i style="width:${tr.capacity ? (a.weightTaken / tr.capacity) * 100 : 0}%;background:${colors[items.findIndex((x) => +x.id === a.itemId) % colors.length]}" title="${esc(a.itemName)}"></i>`).join("")}</div>
+        <div class="usage-line"><span>CAPACITY USED</span><b class="mono">${fmt(tr.capacity ? (tr.weightLoaded / tr.capacity) * 100 : 0, 1)}%</b></div>
+        <div class="alloc-list">${tr.allocations.map((a) => `<div class="allocation-row"><span class="alloc-color" style="background:${colors[items.findIndex((x) => +x.id === a.itemId) % colors.length]}"></span>
+        <span class="alloc-name">${esc(a.itemName)}</span>
+        <span class="mono">${fmt(a.fraction * 100, 1)}%</span>
+        <span class="mono">${fmt(a.weightTaken)} kg</span>
+        <b class="mono">${money(a.valueGained)}</b>
+        </div>`).join("")}</div></div>`).join("")}</div>
+      </section>
+      <div class="chart-grid">
+      <section class="panel chart-panel">
+        <div class="chart-heading"><b>VALUE BY TRUCK</b>
+        <span>Contribution to total loaded value</span></div>
+        <canvas id="truckChart" height="180"></canvas>
+      </section>
+      <section class="panel chart-panel">
+      <div class="chart-heading">
+      <b>VALUE DENSITY ORDER</b>
+      <span>Ratio ranking · status of each cargo item</span>
+      </div><canvas id="itemChart" height="180">
+      </canvas>
+      <div class="legend">
+      <span><i class="green-dot"></i>Full</span>
+      <span><i class="yellow-dot"></i>Partial</span>
+      <span><i class="gray-dot"></i>Left behind</span>
+      </div>
+      </section>
+      </div>${result.leftoverItems.length ? `<section class="panel leftovers">
+        <div class="panel-title"><div>
+        <span class="section-index">REMAINING CARGO</span>
+        <h2>Left behind</h2>
+        </div>
+        <span class="badge warning-badge">${result.leftoverItems.length} ITEMS</span>
+        </div>
+        <div class="leftover-list">${result.leftoverItems.map((x) => `<div>
+          <b>${esc(x.itemName)}</b>
+          <span class="mono">${fmt(x.remainingWeight)} kg remaining</span>
+          <small>${esc(x.reason)}</small></div>`).join("")}</div></section>` : ""}
+          <section class="panel trace-panel"><details open><summary><span><span class="section-index">GREEDY TRACE</span><b>Step-by-step explanation</b><small>${result.trace.length} decisions · ratio order</small></span><i>⌄</i></summary><div class="trace-intro">Items are ranked by value per kilogram; the optimizer pours each item into available fleet capacity in that order.</div><ol>${result.trace.map((line, i) => `<li><span class="trace-number">${String(i + 1).padStart(2, "0")}</span>${esc(line)}</li>`).join("")}</ol></details></section><div class="bottom-nav results-bottom"><button class="button danger-button" id="reset">Reset all</button></div>`;
 }
 async function bind() {
   document.querySelectorAll("[data-step]").forEach(
